@@ -3,6 +3,7 @@ Codice e Riflessioni interne allo studio "Pattern Ricorrenti nella comunicazione
 Lo studio esplora pattern ricorrenti nelle comunicazioni via e-mail raccolte da un mail server e analizzati grazie a Wolfram Mathematica.
 
 > **Nota:** Il dataset usato in questo studio non è disponibile.
+> 
 > **Note:** The original dataset used in this study is not available in the repository.
 
 ## Riassunto
