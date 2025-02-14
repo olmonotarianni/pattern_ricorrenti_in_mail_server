@@ -1,0 +1,1272 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     59120,       1264]
+NotebookOptionsPosition[     58757,       1250]
+NotebookOutlinePosition[     59163,       1266]
+CellTagsIndexPosition[     59120,       1263]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{
+   "i", ",", "j", ",", "k", ",", "m", ",", "contMobile", ",", "contFisso", 
+    ",", "nFile", ",", "log", ",", " ", "righe", ",", "anno", ",", 
+    "secInUnGiorno", ",", "secInUnAnnoCivile", ",", "secInUnAnnoBisestile", 
+    ",", "datiDaSalvare", ",", "tempMails", ",", "nuovaMail", ",", "idMail", 
+    ",", "idTo", ",", "idOrigTo", ",", "idFrom", ",", "idStatus", ",", 
+    "giorno", ",", "ora", ",", "minuti", ",", "secondi", ",", "mese", ",", 
+    "meseStringa", ",", "nGiorni", ",", "metallo", ",", "datiOrdinati", ",", 
+    "stringaMETALLO", ",", "stream", ",", "righe"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+   "SetDirectory", "[", 
+    "\"\<C:\\\\Users\\\\Paolo\\\\OneDrive - Politecnico di \
+Milano\\\\Documenti\\\\Tesi\\\\2021 Laboratorio Progettuale\\\\Programmi \
+20-21\\\\Run\\\\righe\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"secInUnGiorno", " ", "=", " ", 
+   RowBox[{"24", "*", "60", "*", "60"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"secInUnAnnoCivile", " ", "=", " ", "31536000"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"secInUnAnnoBisestile", " ", "=", " ", "31622400"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"datiOrdinati", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"tempMails", "=", 
+    RowBox[{"{", "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"For", "[", 
+   RowBox[{
+    RowBox[{"metallo", "=", "1"}], ",", 
+    RowBox[{"metallo", "\[LessEqual]", "3"}], ",", 
+    RowBox[{"metallo", "++"}], ",", " ", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"stringaMETALLO", "=", 
+      RowBox[{"Which", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"metallo", "\[Equal]", "1"}], ",", "\"\<Bronze\>\"", ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"metallo", "\[Equal]", "2"}], ",", "\"\<Silver\>\"", ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"metallo", "\[Equal]", "3"}], ",", "\"\<Gold\>\""}], 
+       "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"ad", " ", "ogni", " ", "cambio", " ", "metallo", " ", 
+        RowBox[{"l", "'"}], "anno", " ", "riparte", " ", 
+        RowBox[{"dall", "'"}], "inizio"}], ",", " ", 
+       RowBox[{
+       "cos\[IGrave]", " ", "come", " ", "ripartono", " ", "le", " ", "date", 
+        " ", "dei", " ", "log", " ", "letti"}]}], "*)"}], " ", 
+     "\[IndentingNewLine]", 
+     RowBox[{"anno", "=", "2016"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{
+       "nella", " ", "variabile", " ", "righe", " ", "sono", " ", "contenute",
+         " ", "le", " ", "righe", " ", "da", " ", "elaborare"}], ",", " ", 
+       RowBox[{
+       "per", " ", "ognuna", " ", "delle", " ", "tre", " ", "iterazioni", " ",
+         "righe", " ", "contiene", " ", "un", " ", "metallo", " ", 
+        "diverso"}]}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"righe", "=", 
+      RowBox[{"Import", "[", 
+       RowBox[{
+       "\"\<righe\>\"", "<>", "stringaMETALLO", "<>", "\"\<.txt\>\""}], " ", 
+       "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "qui", " ", "scrivo", " ", "i", " ", "dati", " ", "che", " ", "poi", 
+       " ", "verranno", " ", "salvati", " ", "nel", " ", "file", " ", 
+       "\"\<dati ordinati\>\""}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"datiDaSalvare", "=", 
+      RowBox[{"{", "}"}]}], ";", " ", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"si", " ", "leggono", " ", "tutte", " ", "le", " ", "Righe"}], 
+       ",", " ", 
+       RowBox[{"una", " ", "per", " ", "volta"}]}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"i", "=", "1"}], ",", 
+       RowBox[{"i", "\[LessEqual]", 
+        RowBox[{"Length", "[", "righe", "]"}]}], ",", " ", 
+       RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"l", "'"}], "anno", " ", "aumenta", " ", "al", " ", 
+         "passaggio", " ", "tra", " ", "Dec", " ", "e", " ", "Jan"}], " ", 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"i", "\[NotEqual]", "1"}], "&&", 
+           RowBox[{
+            RowBox[{"StringTake", "[", 
+             RowBox[{
+              RowBox[{"righe", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "-", "1"}], "]"}], "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"1", ",", "3"}], "}"}]}], "]"}], "\[Equal]", 
+            "\"\<Dec\>\""}], " ", "&&", " ", 
+           RowBox[{
+            RowBox[{"StringTake", "[", 
+             RowBox[{
+              RowBox[{"righe", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"1", ",", "3"}], "}"}]}], "]"}], "\[Equal]", 
+            "\"\<Jan\>\""}]}], ",", 
+          RowBox[{"anno", "++"}]}], "]"}], ";", " ", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"FROM", " ", 
+           RowBox[{"CHECK", ":", " ", 
+            RowBox[{
+            "genero", " ", "il", " ", "vettore", " ", "per", " ", "una", " ", 
+             "nuova", " ", "mail"}]}]}], ",", " ", 
+          RowBox[{
+          "a", " ", "meno", " ", "che", " ", "questo", " ", "non", " ", 
+           "esista", " ", "gi\[AGrave]"}]}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"StringContainsQ", "[", 
+            RowBox[{
+             RowBox[{"righe", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"\"\<from=<\>\"", "~~", "__", "~~", "\"\<>\>\""}], 
+              "}"}]}], "]"}], ",", 
+           "                                                                  \
+                ", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"idMail", "=", 
+             RowBox[{"StringTake", "[", 
+              RowBox[{
+               RowBox[{"righe", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<:\>\""}], "]"}],
+                    "[", 
+                   RowBox[{"[", 
+                    RowBox[{"3", ",", "1"}], "]"}], "]"}], "+", "2"}], ",", 
+                 "\[IndentingNewLine]", " ", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<:\>\""}], "]"}],
+                    "[", 
+                   RowBox[{"[", 
+                    RowBox[{"4", ",", "1"}], "]"}], "]"}], "-", "1"}]}], 
+                "}"}]}], "]"}]}], ";", " ", 
+            RowBox[{"(*", " ", "idmail", " ", "*)"}], "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"(*", " ", 
+             RowBox[{
+              RowBox[{
+              "controllo", " ", "che", " ", "questa", " ", "email", " ", 
+               "non", " ", "sia", " ", "gi\[AGrave]", " ", "stata", " ", 
+               "considerata"}], ";", " ", 
+              RowBox[{
+              "eventualmente", " ", "salvo", " ", "in", " ", "k", " ", "la", 
+               " ", "sua", " ", "posizione"}]}], " ", "*)"}], 
+            "\[IndentingNewLine]", 
+            RowBox[{"For", "[", 
+             RowBox[{
+              RowBox[{"k", "=", 
+               RowBox[{"Length", "[", "tempMails", "]"}]}], ",", " ", 
+              RowBox[{"k", ">", "0"}], ",", 
+              RowBox[{"k", "--"}], ",", " ", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"tempMails", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"k", ",", "2"}], "]"}], "]"}], "\[Equal]", 
+                  "idMail"}], ",", "\[IndentingNewLine]", 
+                 RowBox[{"Break", "[", "]"}]}], "]"}], ";"}]}], 
+             "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"k", ">", "0"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(*", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{"\"\<ID found:\>\"", "<>", "idMail"}], "]"}], ";"}], 
+               "*)"}], " ", 
+              RowBox[{"(*", 
+               RowBox[{
+                RowBox[{
+                "se", " ", "la", " ", "email", " ", "\[EGrave]", " ", 
+                 "expired"}], ",", " ", 
+                RowBox[{
+                "o", " ", "ha", " ", "qualche", " ", "destinatario", " ", 
+                 "raggiunto", " ", 
+                 RowBox[{"(", "salvo", ")"}], " ", "oppure", " ", "no", " ", 
+                 RowBox[{"(", "cancello", ")"}]}]}], " ", "*)"}], 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{"StringContainsQ", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   "\"\<status=expired\>\""}], "]"}], ",", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "7"}], "]"}], "]"}], "]"}], ">", "0"}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "6"}], "]"}], "]"}], "=", 
+                    RowBox[{"Length", "[", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "7"}], "]"}], "]"}], "]"}]}], ";", " ", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"datiDaSalvare", "=", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{"datiDaSalvare", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", "k", "]"}], "]"}], "}"}]}], "]"}]}], ";"}]}],
+                    " ", "\[IndentingNewLine]", "]"}], ";", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"tempMails", "=", 
+                   RowBox[{"Delete", "[", 
+                    RowBox[{"tempMails", ",", " ", "k"}], "]"}]}], ";"}]}], 
+                "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+              ",", " ", 
+              RowBox[{"(*", " ", 
+               RowBox[{
+                RowBox[{"se", " ", "k"}], "=", 
+                RowBox[{
+                "0", " ", "allora", " ", "la", " ", "mail", " ", "non", " ", 
+                 "\[EGrave]", " ", "ancora", " ", "stata", " ", 
+                 "registrata"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"nuovaMail", "=", 
+                RowBox[{"Table", "[", 
+                 RowBox[{
+                  RowBox[{"{", "}"}], ",", 
+                  RowBox[{"{", "9", "}"}]}], "]"}]}], ";", " ", 
+               RowBox[{"(*", " ", 
+                RowBox[{
+                 RowBox[{
+                 "se", " ", "il", " ", "messaggio", " ", "\[EGrave]", " ", 
+                  "di", " ", "from", " ", "e", " ", "non", " ", "\[EGrave]", 
+                  " ", "ancora", " ", "stato", " ", "registrato"}], ",", " ", 
+                 RowBox[{
+                 "allora", " ", "genero", " ", "un", " ", "nuovo", " ", 
+                  "vettore"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"nuovaMail", "[", 
+                 RowBox[{"[", "2", "]"}], "]"}], "=", "idMail"}], ";", "  ", 
+               RowBox[{"(*", " ", 
+                RowBox[{"inserisco", " ", 
+                 RowBox[{"l", "'"}], "id", " ", "mail", " ", "e", " ", "il", 
+                 " ", "from"}], " ", "*)"}], "\[IndentingNewLine]", 
+               RowBox[{"idFrom", "=", 
+                RowBox[{
+                 RowBox[{"nuovaMail", "[", 
+                  RowBox[{"[", "3", "]"}], "]"}], "=", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<<\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "1"}], "]"}], "]"}], "+", "1"}], 
+                    ",", "\[IndentingNewLine]", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<>\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "1"}], "]"}], "]"}], "-", "1"}]}], 
+                    "}"}]}], "]"}]}]}], ";", " ", 
+               RowBox[{"(*", " ", "from", " ", "*)"}], "\[IndentingNewLine]", 
+               "\[IndentingNewLine]", 
+               RowBox[{"(*", 
+                RowBox[{
+                "ora", " ", "calcolo", " ", "il", " ", "tempo", " ", "del", 
+                 " ", "messaggio", " ", "di", " ", "from", " ", "in", " ", 
+                 "secondi"}], "*)"}], "\[IndentingNewLine]", 
+               RowBox[{"giorno", "=", 
+                RowBox[{"ToExpression", "[", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"5", ",", "6"}], "}"}]}], "]"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"ora", "=", 
+                RowBox[{"ToExpression", "[", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"8", ",", "9"}], "}"}]}], "]"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"minuti", " ", "=", " ", 
+                RowBox[{"ToExpression", "[", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{"11", ",", " ", "12"}], "}"}]}], "]"}], "]"}]}], 
+               ";", "\[IndentingNewLine]", 
+               RowBox[{"secondi", " ", "=", " ", 
+                RowBox[{"ToExpression", "[", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{"14", ",", " ", "15"}], "}"}]}], "]"}], "]"}]}], 
+               ";", "\[IndentingNewLine]", 
+               RowBox[{"meseStringa", "=", 
+                RowBox[{"StringTake", "[", 
+                 RowBox[{
+                  RowBox[{"righe", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"1", ",", "3"}], "}"}]}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"mese", "=", 
+                RowBox[{"Which", "[", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Jan\>\""}], ",", 
+                  "1", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Feb\>\""}], ",", 
+                  "2", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Mar\>\""}], ",", 
+                  "3", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Apr\>\""}], ",", 
+                  "4", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<May\>\""}], ",", 
+                  "5", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Jun\>\""}], ",", 
+                  "6", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Jul\>\""}], ",", 
+                  "7", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Aug\>\""}], ",", 
+                  "8", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Sep\>\""}], ",", 
+                  "9", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Oct\>\""}], ",", 
+                  "10", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Nov\>\""}], ",", 
+                  "11", ",", "\[IndentingNewLine]", 
+                  RowBox[{"meseStringa", "\[Equal]", "\"\<Dec\>\""}], ",", 
+                  "12"}], "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"nGiorni", "=", "0"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"Do", "[", 
+                RowBox[{
+                 RowBox[{"nGiorni", " ", "=", " ", 
+                  RowBox[{"nGiorni", " ", "+", " ", 
+                   RowBox[{"Which", "[", "   ", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    "sono", " ", "i", " ", "giorni", " ", "trascorsi", " ", 
+                    RowBox[{"dall", "'"}], "inizio", " ", 
+                    RowBox[{"dell", "'"}], "anno", " ", "\"\<corrente\>\"", 
+                    " ", 
+                    RowBox[{"all", "'"}], "inizio", " ", "del", " ", "mese", 
+                    " ", "\"\<corrente\>\""}], "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"j", " ", "\[Equal]", " ", "1"}], ",", " ", "31", 
+                    ",", " ", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"j", " ", "\[Equal]", " ", "2"}], " ", "&&", " ", 
+                    RowBox[{"anno", "\[Equal]", "2016"}]}], ",", " ", "29", 
+                    ",", " ", 
+                    RowBox[{"(*", "bisestile", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "2"}], ",", "28", ",", 
+                    "  ", 
+                    RowBox[{"(*", "feb", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "3"}], ",", " ", "31", 
+                    ",", " ", "\[IndentingNewLine]", 
+                    RowBox[{"j", "\[Equal]", " ", "4"}], ",", " ", "30", ",", 
+                    " ", 
+                    RowBox[{"(*", "apr", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "5"}], ",", " ", "31", 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "6"}], ",", " ", "30", 
+                    ",", " ", 
+                    RowBox[{"(*", "giu", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "7"}], ",", " ", "31", 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "8"}], ",", " ", "31", 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "9"}], ",", " ", "30", 
+                    ",", " ", 
+                    RowBox[{"(*", "set", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "10"}], ",", " ", "31",
+                     ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "11"}], ",", " ", "30",
+                     ",", " ", 
+                    RowBox[{"(*", "nov", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "12"}], ",", " ", 
+                    "31"}], "]"}]}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"j", ",", " ", "1", ",", " ", "mese"}], "}"}]}], 
+                "]"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"(*", 
+                RowBox[{
+                 RowBox[{
+                 "assegnazione", " ", "del", " ", "tempo", " ", "in", " ", 
+                  "secondi", " ", "riferito", " ", "alla", " ", "riga", " ", 
+                  "di", " ", "from"}], ",", " ", 
+                 RowBox[{
+                 "poi", " ", "della", " ", "size", " ", "e", " ", "del", " ", 
+                  "numero", " ", "di", " ", "destinatari"}]}], "*)"}], 
+               "\[IndentingNewLine]", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{"anno", " ", "\[Equal]", " ", "2016"}], ",", " ", 
+                 RowBox[{
+                  RowBox[{"nuovaMail", "[", 
+                   RowBox[{"[", "4", "]"}], "]"}], "=", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"nGiorni", " ", "+", " ", "giorno"}], ")"}], " ", 
+                    "*", " ", "secInUnGiorno"}], " ", "+", " ", 
+                   RowBox[{"ora", "*", "60", "*", "60"}], " ", "+", " ", 
+                   RowBox[{"minuti", "*", "60"}], " ", "+", " ", 
+                   "secondi"}]}], ",", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{"nuovaMail", "[", 
+                   RowBox[{"[", "4", "]"}], "]"}], "=", 
+                  RowBox[{"secInUnAnnoBisestile", " ", "+", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"anno", "-", "2016", "-", "1"}], ")"}], " ", "*", 
+                    " ", "secInUnAnnoCivile"}], " ", "+", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"nGiorni", " ", "+", " ", "giorno"}], ")"}], " ", 
+                    "*", " ", "secInUnGiorno"}], " ", "+", " ", 
+                   RowBox[{"ora", "*", "60", "*", "60"}], " ", "+", " ", 
+                   RowBox[{"minuti", "*", "60"}], " ", "+", " ", 
+                   "secondi"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"nuovaMail", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}], "=", 
+                RowBox[{"ToExpression", "[", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{
+                    "\"\<size=\>\"", "~~", "___", "~~", "\"\<,\>\""}]}], 
+                    "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "1"}], "]"}], "]"}], "+", "5"}], 
+                    ",", "\[IndentingNewLine]", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{
+                    "\"\<size=\>\"", "~~", "___", "~~", "\"\<,\>\""}]}], 
+                    "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "2"}], "]"}], "]"}], "-", "1"}]}], 
+                    "}"}]}], "]"}], "]"}]}], ";", " ", 
+               RowBox[{"(*", " ", 
+                RowBox[{"dimensione", " ", 
+                 RowBox[{"(", 
+                  RowBox[{"in", " ", "KB"}], ")"}]}], " ", "*)"}], 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"nuovaMail", "[", 
+                 RowBox[{"[", "6", "]"}], "]"}], "=", 
+                RowBox[{"ToExpression", "[", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<nrcpt\>\""}], 
+                    "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "1"}], "]"}], "]"}], "+", "6"}], 
+                    ",", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{
+                    "\"\<nrcpt\>\"", "~~", "___", "~~", "\"\<(\>\""}]}], 
+                    "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "2"}], "]"}], "]"}], " ", "-", 
+                    "1"}]}], "}"}]}], "]"}], "]"}]}], ";", 
+               RowBox[{"(*", " ", 
+                RowBox[{
+                 RowBox[{
+                 "numero", " ", "di", " ", "destinatari", " ", "temporaneo"}],
+                  ",", " ", 
+                 RowBox[{
+                 "nel", " ", "senso", " ", "che", " ", "alcuni", " ", 
+                  "possono", " ", "non", " ", "essere", " ", "raggiunti", " ",
+                   "e", " ", "verranno", " ", "scartati"}]}], "*)"}], 
+               "\[IndentingNewLine]", 
+               RowBox[{"tempMails", "=", 
+                RowBox[{"Join", "[", 
+                 RowBox[{"tempMails", ",", " ", 
+                  RowBox[{"{", "nuovaMail", "}"}]}], "]"}]}], " ", 
+               RowBox[{"(*", 
+                RowBox[{
+                "inserisco", " ", "la", " ", "nuova", " ", "mail", " ", "fra",
+                  " ", "le", " ", "mail", " ", "\"\<da completare\>\""}], 
+                "*)"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"Clear", "[", "nuovaMail", "]"}], ";"}]}], 
+             "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", ",", 
+           " ", "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{
+             RowBox[{
+             "se", " ", "non", " ", "\[EGrave]", " ", "un", " ", "from"}], 
+             ",", " ", 
+             RowBox[{"controllo", " ", "se", " ", "\[EGrave]", " ", "un", " ", 
+              RowBox[{"to", ":", " ", 
+               RowBox[{"se", " ", "s\[IGrave]"}]}]}], ",", " ", 
+             RowBox[{"salvo", " ", "destinatario"}], ",", " ", 
+             RowBox[{
+             "eventuale", " ", "alias", " ", "e", " ", "stato", " ", "della", 
+              " ", "email"}]}], "*)"}], "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"StringContainsQ", "[", 
+              RowBox[{
+               RowBox[{"righe", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+               RowBox[{"\"\<to=<\>\"", "~~", "__", "~~", "\"\<>\>\""}]}], 
+              "]"}], ",", 
+             "                                                                \
+                                       ", 
+             RowBox[{"(*", 
+              RowBox[{"\"\<TO\>\"", " ", "CHECK"}], "*)"}], 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"idMail", "=", 
+               RowBox[{"StringTake", "[", 
+                RowBox[{
+                 RowBox[{"righe", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<:\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"3", ",", "1"}], "]"}], "]"}], "+", "2"}], ",", 
+                   "\[IndentingNewLine]", " ", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<:\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"4", ",", "1"}], "]"}], "]"}], "-", "1"}]}], 
+                  "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{"idTo", "=", 
+               RowBox[{"StringTake", "[", 
+                RowBox[{
+                 RowBox[{"righe", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<<\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "1"}], "]"}], "]"}], "+", "1"}], 
+                   ",", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<>\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "1"}], "]"}], "]"}], "-", "1"}]}], 
+                  "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{"idOrigTo", " ", "=", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"StringContainsQ", "[", 
+                   RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<orig_to\>\""}], 
+                   "]"}], " ", "\[Equal]", " ", "True"}], ",", " ", 
+                 RowBox[{"StringTake", "[", 
+                  RowBox[{
+                   RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<<\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"2", ",", " ", "1"}], "]"}], "]"}], "+", "1"}], 
+                    ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<>\>\""}], "]"}],
+                     "[", 
+                    RowBox[{"[", 
+                    RowBox[{"2", ",", " ", "1"}], "]"}], "]"}], "-", "1"}]}], 
+                    "}"}]}], "]"}], ",", " ", "\"\<NoAlias\>\""}], "]"}]}], 
+              ";", "\[IndentingNewLine]", 
+              RowBox[{"idStatus", "=", 
+               RowBox[{"StringTake", "[", 
+                RowBox[{
+                 RowBox[{"stringa", " ", "=", " ", 
+                  RowBox[{"StringTake", "[", 
+                   RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{
+                    "\"\<status\>\"", "~~", "___", "~~", "\"\< \>\""}]}], 
+                    "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "1"}], "]"}], "]"}], "+", "7"}], 
+                    ",", "\[IndentingNewLine]", " ", 
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{
+                    "\"\<status\>\"", "~~", "___", "~~", "\"\< \>\""}]}], 
+                    "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", " ", "2"}], "]"}], "]"}]}], "}"}]}], 
+                   "]"}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"1", ",", " ", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"StringPosition", "[", 
+                    RowBox[{"stringa", ",", "\"\< \>\""}], "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"1", ",", "1"}], "]"}], "]"}], "-", "1"}]}], 
+                  "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{"(*", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"cerco", " ", 
+                  RowBox[{"l", "'"}], "id"}], "-", 
+                 RowBox[{"mail", " ", "tra", " ", "le", " ", "tempMails"}]}], 
+                ",", " ", 
+                RowBox[{
+                 RowBox[{"da", " ", "riempire"}], ";", " ", 
+                 RowBox[{"se", " ", 
+                  RowBox[{"c", "'"}], "\[EGrave]"}]}], ",", " ", 
+                RowBox[{"come", " ", "dovrebbe"}], ",", " ", 
+                RowBox[{
+                 RowBox[{"sar\[AGrave]", " ", "la", " ", "k"}], "-", 
+                 "esima"}]}], "*)"}], "\[IndentingNewLine]", 
+              RowBox[{"For", "[", 
+               RowBox[{
+                RowBox[{"k", "=", 
+                 RowBox[{"Length", "[", "tempMails", "]"}]}], ",", " ", 
+                RowBox[{"k", ">", "0"}], ",", 
+                RowBox[{"k", "--"}], ",", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "2"}], "]"}], "]"}], "\[Equal]", 
+                    "idMail"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"Break", "[", "]"}]}], "]"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"k", "==", "0"}], ",", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"Print", "[", 
+                  RowBox[{"\"\<ID not found:\>\"", "<>", "idMail"}], "]"}], 
+                 ";"}], "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{"idStatus", "\[Equal]", "\"\<sent\>\""}], ",", " ", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "se", " ", "la", " ", "email", " ", "\[EGrave]", " ", 
+                    "inviata", " ", "correttamente"}], ",", " ", 
+                    RowBox[{
+                    "riempio", " ", "i", " ", "campi", " ", "corrispondenti", 
+                    RowBox[{"(", 
+                    RowBox[{"k", "-", "esimi"}], ")"}], " ", "in", " ", 
+                    "tempMails", " ", "ESCLUSI", " ", "I", " ", "CASI", " ", 
+                    "IN", " ", "CUI", " ", 
+                    RowBox[{"l", "'"}], "indirizzo", " ", "di", " ", "TO", 
+                    " ", "sia", " ", "uguale", " ", 
+                    RowBox[{"a", ":", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "un", " ", "altro", " ", "indirizzo", " ", "di", " ", 
+                    "to", "\[IndentingNewLine]", "un", " ", "indirizzo", " ", 
+                    "di", " ", "orig_to", "\[IndentingNewLine]", "il", " ", 
+                    "from", "\[IndentingNewLine]", "della", " ", "stessa", 
+                    " ", "email"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"ContainsAny", "[", 
+                    RowBox[{
+                    RowBox[{"Union", "[", 
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "7"}], "]"}], "]"}], ",", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "8"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "3"}], "]"}], "]"}], "}"}]}], "]"}], 
+                    ",", 
+                    RowBox[{"{", "idTo", "}"}]}], "]"}], ",", ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "7"}], "]"}], "]"}], "=", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "7"}], "]"}], "]"}], ",", " ", 
+                    RowBox[{"{", "idTo", "}"}]}], "]"}]}], ";", " ", 
+                    RowBox[{"(*", "to", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "8"}], "]"}], "]"}], "=", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "8"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", "idOrigTo", "}"}]}], "]"}]}], ";", " ", 
+                    RowBox[{"(*", "orig_to", "*)"}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"giorno", "=", 
+                    RowBox[{"ToExpression", "[", 
+                    RowBox[{"StringTake", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"5", ",", "6"}], "}"}]}], "]"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"ora", "=", 
+                    RowBox[{"ToExpression", "[", 
+                    RowBox[{"StringTake", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"8", ",", "9"}], "}"}]}], "]"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", " ", 
+                    RowBox[{"minuti", " ", "=", " ", 
+                    RowBox[{"ToExpression", "[", 
+                    RowBox[{"StringTake", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{"11", ",", " ", "12"}], "}"}]}], "]"}], "]"}]}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"secondi", " ", "=", " ", 
+                    RowBox[{"ToExpression", "[", 
+                    RowBox[{"StringTake", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{"14", ",", " ", "15"}], "}"}]}], "]"}], "]"}]}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "=", 
+                    RowBox[{"StringTake", "[", 
+                    RowBox[{
+                    RowBox[{"righe", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "3"}], "}"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"mese", "=", 
+                    RowBox[{"Which", "[", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Jan\>\""}], ",", 
+                    "1", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Feb\>\""}], ",", 
+                    "2", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Mar\>\""}], ",", 
+                    "3", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Apr\>\""}], ",", 
+                    "4", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<May\>\""}], ",", 
+                    "5", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Jun\>\""}], ",", 
+                    "6", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Jul\>\""}], ",", 
+                    "7", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Aug\>\""}], ",", 
+                    "8", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Sep\>\""}], ",", 
+                    "9", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Oct\>\""}], ",", 
+                    "10", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Nov\>\""}], ",", 
+                    "11", ",", "\[IndentingNewLine]", 
+                    RowBox[{"meseStringa", "\[Equal]", "\"\<Dec\>\""}], ",", 
+                    "12"}], "]"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"nGiorni", "=", "0"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Do", "[", 
+                    RowBox[{
+                    RowBox[{"nGiorni", " ", "=", " ", 
+                    RowBox[{"nGiorni", " ", "+", " ", 
+                    RowBox[{"Which", "[", "   ", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    "sono", " ", "i", " ", "giorni", " ", "trascorsi", " ", 
+                    RowBox[{"dall", "'"}], "inizio", " ", 
+                    RowBox[{"dell", "'"}], "anno", " ", "\"\<corrente\>\"", 
+                    " ", 
+                    RowBox[{"all", "'"}], "inizio", " ", "del", " ", "mese", 
+                    " ", "\"\<corrente\>\""}], "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"j", " ", "\[Equal]", " ", "1"}], ",", " ", "31", 
+                    ",", " ", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"j", " ", "\[Equal]", " ", "2"}], " ", "&&", " ", 
+                    RowBox[{"anno", "\[Equal]", "2016"}]}], ",", " ", "29", 
+                    ",", " ", 
+                    RowBox[{"(*", "bisestile", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "2"}], ",", "28", ",", 
+                    "  ", 
+                    RowBox[{"(*", "feb", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "3"}], ",", " ", "31", 
+                    ",", " ", "\[IndentingNewLine]", 
+                    RowBox[{"j", "\[Equal]", " ", "4"}], ",", " ", "30", ",", 
+                    " ", 
+                    RowBox[{"(*", "apr", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "5"}], ",", " ", "31", 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "6"}], ",", " ", "30", 
+                    ",", " ", 
+                    RowBox[{"(*", "giu", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "7"}], ",", " ", "31", 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "8"}], ",", " ", "31", 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "9"}], ",", " ", "30", 
+                    ",", " ", 
+                    RowBox[{"(*", "set", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "10"}], ",", " ", "31",
+                     ",", "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "11"}], ",", " ", "30",
+                     ",", " ", 
+                    RowBox[{"(*", "nov", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"j", " ", "\[Equal]", " ", "12"}], ",", " ", 
+                    "31"}], "]"}]}]}], "\[IndentingNewLine]", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"j", ",", " ", "1", ",", " ", "mese"}], "}"}]}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    "assegnazione", " ", "del", " ", "tempo", " ", "in", " ", 
+                    "secondi", " ", "riferito", " ", "alla", " ", "riga", " ",
+                     "di", " ", "to"}], "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"anno", " ", "\[Equal]", " ", "2016"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "9"}], "]"}], "]"}], "=", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "9"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"nGiorni", " ", "+", " ", "giorno"}], ")"}], " ", 
+                    "*", " ", "secInUnGiorno"}], " ", "+", " ", 
+                    RowBox[{"ora", "*", "60", "*", "60"}], " ", "+", " ", 
+                    RowBox[{"minuti", "*", "60"}], " ", "+", " ", "secondi"}],
+                     "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "9"}], "]"}], "]"}], "=", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "9"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"secInUnAnnoBisestile", " ", "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"anno", "-", "2016", "-", "1"}], ")"}], " ", "*", 
+                    " ", "secInUnAnnoCivile"}], " ", "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"nGiorni", " ", "+", " ", "giorno"}], ")"}], " ", 
+                    "*", " ", "secInUnGiorno"}], " ", "+", 
+                    RowBox[{"ora", "*", "60", "*", "60"}], " ", "+", " ", 
+                    RowBox[{"minuti", "*", "60"}], " ", "+", " ", "secondi"}],
+                     "}"}]}], "]"}]}], ";"}]}], "\[IndentingNewLine]", 
+                    "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "6"}], "]"}], "]"}], "--"}], " ", ";"}],
+                    " ", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    "decremento", " ", "il", " ", "numero", " ", "di", " ", 
+                    "destinatari", " ", "ancora", " ", "da", " ", "leggere"}],
+                     "*)"}], "\[IndentingNewLine]", ",", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"idStatus", "\[Equal]", "\"\<bounced\>\""}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "6"}], "]"}], "]"}], "--"}], " ", 
+                    ";"}]}], " ", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "decremento", " ", "il", " ", "numero", " ", "di", " ", 
+                    "destinatari", " ", "ancora", " ", "da", " ", "leggere", 
+                    " ", "anche", " ", "se", " ", 
+                    RowBox[{"l", "'"}], "email", " ", "\[EGrave]", " ", 
+                    "\"\<bounced\>\""}], " ", "-", " ", 
+                    RowBox[{"non", " ", "consegnata"}]}], "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", " ", "[", 
+                    RowBox[{
+                    RowBox[{"idStatus", "\[Equal]", "\"\<deferred\>\""}], 
+                    ","}], "\[IndentingNewLine]", "]"}], ";"}]}], " ", "*)"}],
+                     "\[IndentingNewLine]", "]"}], ";"}]}], 
+                  "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                 "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                 RowBox[{"(*", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    "completo", " ", "la", " ", "lettura", " ", "di", " ", 
+                    "un", " ", "messaggio", " ", "di", " ", "to", " ", 
+                    "quando", " ", "nrcpt"}], " ", "=", " ", "0"}], ";", " ", 
+                   RowBox[{
+                   "elimino", " ", "i", " ", "destinatari", " ", "delle", " ",
+                     "email", " ", "quando", " ", "corrispondono", " ", "al", 
+                    " ", "mittente", " ", "o", " ", "ad", " ", "un", " ", 
+                    "alias", " ", "della", " ", "stessa"}]}], "*)"}], 
+                 "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "6"}], "]"}], "]"}], "\[Equal]", "0"}], 
+                   ",", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "7"}], "]"}], "]"}], "]"}], ">", "0"}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "6"}], "]"}], "]"}], "=", 
+                    RowBox[{"Length", "[", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", ",", "7"}], "]"}], "]"}], "]"}]}], ";", " ", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"datiDaSalvare", "=", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{"datiDaSalvare", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"tempMails", "[", 
+                    RowBox[{"[", "k", "]"}], "]"}], "}"}]}], "]"}]}], ";"}]}],
+                     " ", "\[IndentingNewLine]", "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"tempMails", "=", 
+                    RowBox[{"Delete", "[", 
+                    RowBox[{"tempMails", ",", " ", "k"}], "]"}]}], ";"}]}], 
+                  "\[IndentingNewLine]", "]"}]}]}], 
+               RowBox[{"(*", 
+                RowBox[{
+                 RowBox[{"If", " ", "nRcpt"}], "\[Equal]", 
+                 RowBox[{
+                  RowBox[{"0", " ", "salvo", " ", "k"}], "-", 
+                  RowBox[{"tempMail", " ", "in", " ", "datiDaSalvare"}]}]}], 
+                "*)"}], "\[IndentingNewLine]", "]"}]}]}], 
+            RowBox[{"(*", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"If", " ", "k"}], "\[NotEqual]", 
+               RowBox[{"0", " ", "salvo", " ", "in", " ", "tempMails"}]}], 
+              ",", " ", 
+              RowBox[{
+              "ho", " ", "trovato", " ", "il", " ", "from", " ", "a", " ", 
+               "cui", " ", "si", " ", "riferisce", " ", "il", " ", "to"}]}], 
+             "*)"}], "\[IndentingNewLine]", "]"}]}], 
+          RowBox[{"(*", " ", 
+           RowBox[{"If", " ", 
+            RowBox[{"ContainsQ", "[", "to", "]"}]}], "*)"}], 
+          "\[IndentingNewLine]", "]"}], 
+         RowBox[{"(*", 
+          RowBox[{"Primo", " ", "If", " ", 
+           RowBox[{"ContainsQ", "[", "from", "]"}]}], "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Mod", "[", 
+             RowBox[{"i", ",", "50000"}], "]"}], "\[Equal]", "0"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", 
+            RowBox[{"CurrentDate", "[", "]"}], "]"}]}], "]"}]}]}]}], 
+      "\[IndentingNewLine]", "]"}], ";", 
+     RowBox[{"(*", 
+      RowBox[{"chiude", " ", "il", " ", "For", " ", 
+       RowBox[{"righe", "[", 
+        RowBox[{"[", "i", "]"}], "]"}]}], "*)"}], "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"datiOrdinati", "=", 
+      RowBox[{"Join", "[", 
+       RowBox[{"datiOrdinati", ",", "datiDaSalvare"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Clear", "[", "datiDaSalvare", "]"}], ";"}]}], 
+   "\[IndentingNewLine]", "]"}], ";", 
+  RowBox[{"(*", 
+   RowBox[{"chiude", " ", "For", " ", "metalli"}], "*)"}], 
+  "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"datiOrdinati", " ", "\[EGrave]", " ", 
+     RowBox[{"l", "'"}], "unico", " ", "outPut", " ", "del", " ", "codice"}], 
+    ",", " ", 
+    RowBox[{
+    "a", " ", "cui", " ", "solo", " ", "alla", " ", "fine", " ", "viene", " ",
+      "aggiunto", " ", "un", " ", "contatore"}]}], "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"datiOrdinati", "=", 
+   RowBox[{"Sort", "[", 
+    RowBox[{"datiOrdinati", ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"#1", "[", 
+        RowBox[{"[", "4", "]"}], "]"}], "<", 
+       RowBox[{"#2", "[", 
+        RowBox[{"[", "4", "]"}], "]"}]}], "&"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"c", "=", "1"}], ",", 
+     RowBox[{"c", "<=", 
+      RowBox[{"Length", "[", "datiOrdinati", "]"}]}], ",", 
+     RowBox[{"c", "++"}], ",", 
+     RowBox[{
+      RowBox[{"datiOrdinati", "[", 
+       RowBox[{"[", 
+        RowBox[{"c", ",", "1"}], "]"}], "]"}], "=", "c"}]}], "]"}], ";"}], 
+  " ", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "SetDirectory", "[", 
+   "\"\<C:\\\\Users\\\\Paolo\\\\OneDrive - Politecnico di Milano\\\\Documenti\
+\\\\Tesi\\\\2021 Laboratorio Progettuale\\\\Programmi \
+20-21\\\\Run\\\\DATIORDINATI\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"stream", " ", "=", " ", 
+   RowBox[{"OpenWrite", "[", "\"\<secondiDatiOrdinati.txt\>\"", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Write", "[", 
+    RowBox[{"stream", ",", "datiOrdinati"}], "]"}], ";"}], 
+  " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Close", "[", "stream", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Clear", "[", "stream", "]"}], ";"}], "\n"}], "Input",
+ CellChangeTimes->{{3.8399261913628073`*^9, 3.839926192766344*^9}, {
+   3.839926238383445*^9, 3.8399263804288936`*^9}, {3.8399265738620086`*^9, 
+   3.8399265785372877`*^9}, {3.8400849722485695`*^9, 3.8400850084919147`*^9}, 
+   3.8400868142215176`*^9, {3.8400876865994444`*^9, 3.8400877082171016`*^9}, {
+   3.840088693733305*^9, 3.8400888992726154`*^9}, {3.840088980264939*^9, 
+   3.8400889975286026`*^9}},ExpressionUUID->"4996e2f0-bef9-45b3-977a-\
+0433e5d6c05c"]
+},
+WindowSize->{960, 478},
+WindowMargins->{{-5.5, Automatic}, {Automatic, -5.5}},
+FrontEndVersion->"12.2 for Microsoft Windows (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"49cadd17-4b4a-44f5-a4d5-9552b924b2fa"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 58195, 1228, 4602, "Input",ExpressionUUID->"4996e2f0-bef9-45b3-977a-0433e5d6c05c"]
+}
+]
+*)
+
